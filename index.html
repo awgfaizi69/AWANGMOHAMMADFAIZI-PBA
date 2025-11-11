@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CineStar Booking | TGV Style</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .navbar {
+      background-color: #1a1a1a;
+    }
+
+    .navbar-brand {
+      color: #e50914 !important;
+      font-weight: bold;
+    }
+
+    .carousel-item img {
+      height: 450px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .card {
+      background-color: #1a1a1a;
+      border: none;
+      color: #fff;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .btn-custom {
+      background-color: #e50914;
+      color: white;
+    }
+
+    .btn-custom:hover {
+      background-color: #ff1e25;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">🎟️ CineStar Booking</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#movies">Movies</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CAROUSEL -->
+  <div id="mainCarousel" class="carousel slide mt-3 container" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="Images/pic1.jpg" class="d-block w-100" alt="Carousel 1" />
+      </div>
+      <div class="carousel-item">
+        <img src="Images/pic4.jpg" class="d-block w-100" alt="Carousel 2" />
+      </div>
+      <div class="carousel-item">
+        <img src="Images/pic3.jpg" class="d-block w-100" alt="Carousel 3" />
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
+  <!-- MOVIES SECTION -->
+  <div class="container mt-5" id="movies">
+    <h2 class="text-center mb-4">Now Showing 🍿</h2>
+    <div class="row" id="movieList"></div>
+  </div>
+
+  <!-- BOOKING MODAL -->
+  <div class="modal fade" id="bookingModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header">
+          <h5 class="modal-title">Book Your Ticket</h5>
+          <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="bookingForm">
+            <div class="mb-3">
+              <label class="form-label">Movie</label>
+              <input type="text" class="form-control" id="movieName" readonly />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Showtime</label>
+              <select class="form-select" id="showtime" required>
+                <option value="">Select time</option>
+                <option>12:00 PM</option>
+                <option>3:00 PM</option>
+                <option>6:00 PM</option>
+                <option>9:00 PM</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Seat Type</label>
+              <select class="form-select" id="seatType" required>
+                <option value="">Select type</option>
+                <option value="Regular">Regular - RM15</option>
+                <option value="Deluxe">Deluxe - RM25</option>
+                <option value="VIP">VIP - RM35</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tickets</label>
+              <input type="number" class="form-control" id="ticketCount" min="1" value="1" required />
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="consent" />
+              <label class="form-check-label">I consent to data usage for booking purposes.</label>
+            </div>
+            <div class="mb-3">
+              <p class="fw-bold">Total: RM <span id="totalPrice">0</span></p>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-custom" id="confirmBtn" disabled>Confirm Booking</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT SECTION -->
+  <div class="text-center my-5" id="contact">
+    <button class="btn btn-outline-light btn-lg" data-bs-toggle="modal" data-bs-target="#contactModal">📩 Contact Us</button>
+  </div>
+
+  <!-- CONTACT MODAL -->
+  <div class="modal fade" id="contactModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header">
+          <h5 class="modal-title">Contact Us</h5>
+          <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="contactForm">
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input type="text" id="name" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" id="email" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Message</label>
+              <textarea id="message" class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-custom w-100">Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center p-3 mt-4" style="background-color:#1a1a1a;">
+    © 2025 CineStar Booking — A TGV-style Experience
+  </footer>
+
+  <!-- JS & jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // 🎬 Movie List
+    const movies = [
+      { title: "The Conjuring: The Last Rites", img: "Images/pic1.jpg" },
+      { title: "Venom: The Last dance", img: "Images/pic3.jpg" },
+      { title: "Fast and Furios X", img: "Images/pic4.jpg" },
+    ];
+
+    const movieList = document.getElementById("movieList");
+    movies.forEach((m, i) => {
+      movieList.innerHTML += `
+        <div class="col-md-4 mb-4">
+          <div class="card text-center">
+            <img src="${m.img}" class="card-img-top" alt="${m.title}">
+            <div class="card-body">
+              <h5>${m.title}</h5>
+              <button class="btn btn-custom" onclick="openBooking('${m.title}')">Book Now</button>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    // Booking Modal Logic
+    const movieName = document.getElementById("movieName");
+    const seatType = document.getElementById("seatType");
+    const ticketCount = document.getElementById("ticketCount");
+    const totalPrice = document.getElementById("totalPrice");
+
+    function openBooking(title) {
+      movieName.value = title;
+      new bootstrap.Modal(document.getElementById("bookingModal")).show();
+      calculateTotal();
+    }
+
+    function calculateTotal() {
+      const seatPrices = { Regular: 15, Deluxe: 25, VIP: 35 };
+      const seat = seatType.value;
+      const count = parseInt(ticketCount.value);
+      totalPrice.textContent = seat ? seatPrices[seat] * count : 0;
+    }
+
+    seatType.addEventListener("change", calculateTotal);
+    ticketCount.addEventListener("input", calculateTotal);
+
+    // Consent + Button Enable
+    document.getElementById("consent").addEventListener("change", function () {
+      document.getElementById("confirmBtn").disabled = !this.checked;
+    });
+
+    // Booking Submit
+    document.getElementById("bookingForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("🎉 Thank you! Your tickets for " + movieName.value + " have been booked ethically!");
+      e.target.reset();
+      document.getElementById("confirmBtn").disabled = true;
+      totalPrice.textContent = 0;
+    });
+
+    // Contact Form Validation
+    document.getElementById("contactForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const n = $("#name").val().trim();
+      const em = $("#email").val().trim();
+      const msg = $("#message").val().trim();
+
+      if (!n || !em || !msg) return alert("Please fill in all fields.");
+      if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(em)) {
+    return alert("Invalid email format.");
+}
+
+
+      alert("Thank you! Your message has been sent.");
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
